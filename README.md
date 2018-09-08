@@ -1,7 +1,7 @@
 capsmap - DOS TSR for remapping caps lock
 -----------------------------------------
 
-Author: John Tsiombikas <nuclear@member.fsf.org>
+Author: John Tsiombikas <nuclear@member.fsf.org>  
 This program is placed in the public domain. Do whatever you like with it.
 
 Capsmap is a DOS Terminate and Stay Resident program, for remapping caps lock
