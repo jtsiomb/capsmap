@@ -35,28 +35,8 @@ SCANCODE equ 011bh
 	org 100h
 	bits 16
 
-	mov ax, 0900h
-	mov dx, msg
-	int 21h
-
-	; get current keyboard interrupt handler
-	mov ax, 3509h
-	int 21h
-	mov [orig_seg], es
-	mov [orig_off], bx
-
-	; set our own interrupt handler in its place
-	mov ax, 2509h
-	mov dx, kbintr
-	int 21h
-
-	mov ax, 0900h
-	mov dx, msg_done
-	int 21h
-
-	; terminate and stay awesome
-	mov dx, end_of_code
-	int 27h
+	; jump over resident part to the init code at the end
+	jmp init
 
 KB_INTR equ 09h
 KB_PORT equ 60h
@@ -68,7 +48,6 @@ KBFLAGS1 equ 18h
 
 SCAN_CAPS_PRESS equ 03ah
 SCAN_CAPS_RELEASE equ 0bah
-
 
 kbintr:
 	push ax
@@ -118,7 +97,6 @@ kbintr:
 	iret
 
 
-
 %ifndef MAP_MODKEY
 
 BHEAD_OFF equ 1ah
@@ -150,14 +128,38 @@ append_key:
 
 .end:	popa
 	ret
-
 %endif
+
+orig_seg dw 0
+orig_off dw 0
+resident_end:
+
+	; init code, anything from this point on will not stay resident
+init:
+	mov ax, 0900h
+	mov dx, msg
+	int 21h
+
+	; get current keyboard interrupt handler
+	mov ax, 3509h
+	int 21h
+	mov [orig_seg], es
+	mov [orig_off], bx
+
+	; set our own interrupt handler in its place
+	mov ax, 2509h
+	mov dx, kbintr
+	int 21h
+
+	mov ax, 0900h
+	mov dx, msg_done
+	int 21h
+
+	; terminate and stay awesome
+	mov dx, resident_end
+	int 27h
 
 
 msg db 'Installing capslock remapper... $'
 msg_done db 'done.',13,10,'$'
-orig_seg dw 0
-orig_off dw 0
-
-end_of_code:
 ; vi:set filetype=nasm ts=8:
