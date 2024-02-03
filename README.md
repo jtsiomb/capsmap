@@ -1,7 +1,7 @@
 capsmap - DOS TSR for remapping caps lock
 -----------------------------------------
 
-Author: John Tsiombikas <nuclear@member.fsf.org>  
+Author: John Tsiombikas <nuclear@mutantstargoat.com>  
 This program is placed in the public domain. Do whatever you like with it.
 
 Capsmap is a DOS Terminate and Stay Resident program, for remapping caps lock
@@ -13,7 +13,7 @@ either BIOS or DOS calls to get keyboard input. It will not work however for any
 programs which access the keyboard directly, like most games.
 
 Two pre-built versions of the caps mapper are provided in the release archive.
- - `capsctrl.com` maps caps lock to the left control key.
+ - `capsmap.com` maps caps lock to the left control key.
  - `capsesc.com` maps caps lock to the escape key.
 
 If you wish to map caps lock to something else, you need to rebuild the program
